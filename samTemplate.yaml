@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: CD Demo Lambda
+Resources:
+  CDDemoLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main.handler
+      Runtime: python3.9
+      Timeout: 60
+      CodeUri: ./LambdaCode
+      Description: 'Lambda function for CD demo'
+      MemorySize: 128
+      Timeout: 10
+      Role: 'arn:aws:iam::727071370152:role/master'
+      Policies: AWSLambdaExecute
+      Events:
+        getState:
+          Type: Api
+          Properties:
+            Path: /getState
+            Method: get
+    Environment:
+      Variables:
+        REGION: eu-west-1
